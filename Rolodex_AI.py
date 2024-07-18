@@ -5,6 +5,7 @@ import faiss
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import normalize
 from config import OPENAI_API_KEY
+from dotenv import load_dotenv
 
 
 # Initialize OpenAI API
