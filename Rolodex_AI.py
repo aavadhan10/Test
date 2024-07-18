@@ -51,16 +51,13 @@ def query_gpt_with_data(question, data, index, vectorizer):
             # Create a prompt that includes the relevant data and the user's question
             prompt = f"Given the following data on top lawyers:\n{relevant_data.to_string()}\nWho are the top lawyers for {practice_area}?"
 
-            # Call the GPT-3.5-turbo model
-            response = openai.ChatCompletion.create(
+            # Call the GPT-3.5-turbo model using the new API
+            response = openai.Completion.create(
                 model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": prompt}
-                ],
+                prompt=prompt,
                 max_tokens=150
             )
-            return response.choices[0].message['content'].strip()
+            return response.choices[0].text.strip()
     except Exception as e:
         st.error(f"Error querying GPT: {e}")
         return "An error occurred while processing your request."
