@@ -26,7 +26,7 @@ def create_vector_db(data):
     index.add(X.toarray())
     return index, vectorizer
 
-data = load_data('/Users/ankitaavadhani/Desktop/Matter_Bio.csv')
+data = load_data('Matter_Bio.csv')
 index, vectorizer = create_vector_db(data)
 
 
@@ -73,7 +73,7 @@ st.write("Ask questions about the top lawyers in a specific practice area:")
 user_input = st.text_input("Your question: (e.g., 'What are the top lawyers for corporate law' or 'What is the contact information for the top lawyers for corporate law')")
 
 if user_input:
-    data = load_data('/Users/ankitaavadhani/Desktop/Matter_Bio.csv')
+    data = load_data('Matter_Bio.csv')
     if not data.empty:
         index, vectorizer = create_vector_db(data)
         if index is not None and vectorizer is not None:
