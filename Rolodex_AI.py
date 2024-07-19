@@ -53,7 +53,7 @@ def query_gpt_with_data(question, data, index, vectorizer):
             prompt = f"Given the following data on top lawyers:\n{relevant_data.to_string()}\nWho are the top lawyers for {practice_area}?"
 
             # Call the GPT-3.5-turbo model using the new API
-            response = openai.Completion.create(
+            response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 prompt=prompt,
                 max_tokens=150
