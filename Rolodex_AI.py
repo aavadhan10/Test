@@ -54,7 +54,7 @@ def query_gpt_with_data(question, data, index, vectorizer):
 
             # Call the GPT-3.5-turbo model using the new API
             response = openai.Completion.create(
-                model="text-davinci-003",
+                model="gpt-3.5-turbo",
                 prompt=prompt,
                 max_tokens=150
             )
