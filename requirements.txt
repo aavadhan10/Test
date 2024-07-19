@@ -1,7 +1,9 @@
-openai==1.35.15
 faiss-cpu==1.8.0
-scikit-learn==1.5.1
 streamlit==1.36.0
 numpy<=1.25.1
 python-dotenv==0.10.1
+openai==1.11.1
+scikit-learn==1.5.1
+pybind11>=2.12
+
 
