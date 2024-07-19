@@ -5,7 +5,6 @@ import faiss
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import normalize
 from config import OPENAI_API_KEY
-from dotenv import load_dotenv
 
 
 # Initialize OpenAI API
@@ -27,7 +26,7 @@ def create_vector_db(data):
     index.add(X.toarray())
     return index, vectorizer
 
-data = load_data('Matter_Bio.csv')
+data = load_data('/Users/ankitaavadhani/Desktop/Matter_Bio.csv')
 index, vectorizer = create_vector_db(data)
 
 
@@ -36,7 +35,7 @@ def query_gpt_with_data(question, data, index, vectorizer):
     try:
         # Extract practice area from the question
         practice_area = question.split("for")[-1].strip()
-        
+
         # Vectorize the practice area
         practice_area_vec = vectorizer.transform([practice_area])
         practice_area_vec = normalize(practice_area_vec)
@@ -52,13 +51,16 @@ def query_gpt_with_data(question, data, index, vectorizer):
             # Create a prompt that includes the relevant data and the user's question
             prompt = f"Given the following data on top lawyers:\n{relevant_data.to_string()}\nWho are the top lawyers for {practice_area}?"
 
-            # Call the GPT-3.5-turbo model using the new API
+            # Call the GPT-3.5-turbo model
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
-                prompt=prompt,
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": prompt}
+                ],
                 max_tokens=150
             )
-            return response.choices[0].text.strip()
+            return response.choices[0].message['content'].strip()
     except Exception as e:
         st.error(f"Error querying GPT: {e}")
         return "An error occurred while processing your request."
@@ -71,7 +73,7 @@ st.write("Ask questions about the top lawyers in a specific practice area:")
 user_input = st.text_input("Your question: (e.g., 'What are the top lawyers for corporate law' or 'What is the contact information for the top lawyers for corporate law')")
 
 if user_input:
-    data = load_data('Matter_Bio.csv')
+    data = load_data('/Users/ankitaavadhani/Desktop/Matter_Bio.csv')
     if not data.empty:
         index, vectorizer = create_vector_db(data)
         if index is not None and vectorizer is not None:
